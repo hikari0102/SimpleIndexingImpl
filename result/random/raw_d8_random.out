@@ -1,0 +1,60 @@
+Loading CSV: student.csv
+  N=100000  lookups=100000  erases=50000  order=8 (effective t=4)
+Reps: 10 measured + 2 warmup
+
+Measuring (reps=10, warmup=2)
+  B-tree... done.
+  B+-tree... done.
+  B*-tree... done.
+
+============= TIMING RAW DATA =============
+tree      rep                insert ms         lookup ms          range ms          erase ms
+B-tree    1                     56.273            20.034             1.060            36.103
+B-tree    2                     63.213            21.466             0.948            33.033
+B-tree    3                     60.199            20.561             0.947            32.526
+B-tree    4                     53.439            24.549             1.142            33.752
+B-tree    5                     55.855            21.325             0.984            32.705
+B-tree    6                     58.954            20.848             0.979            30.373
+B-tree    7                     55.824            23.896             1.209            32.646
+B-tree    8                     53.230            18.701             1.001            31.915
+B-tree    9                     52.370            18.736             0.913            30.357
+B-tree    10                    55.114            19.452             0.881            31.524
+B+-tree   1                     50.777            18.716             0.750            24.868
+B+-tree   2                     50.327            20.857             0.980            22.617
+B+-tree   3                     56.753            19.055             0.682            23.119
+B+-tree   4                     49.040            18.927             0.719            22.645
+B+-tree   5                     50.126            18.721             0.696            25.192
+B+-tree   6                     54.532            20.280             0.869            24.589
+B+-tree   7                     50.622            19.468             0.695            23.061
+B+-tree   8                     51.391            21.737             1.045            28.965
+B+-tree   9                     54.555            19.050             0.724            23.586
+B+-tree   10                    52.075            21.845             0.776            23.372
+B*-tree   1                    107.419            22.578             0.926            25.270
+B*-tree   2                    101.319            18.419             0.848            21.369
+B*-tree   3                    112.135            24.242             1.298            29.141
+B*-tree   4                    107.603            18.560             0.894            21.410
+B*-tree   5                    113.860            20.083             1.024            22.137
+B*-tree   6                    101.512            22.262             1.224            24.007
+B*-tree   7                    102.084            19.656             0.910            22.679
+B*-tree   8                    120.228            21.973             1.214            22.294
+B*-tree   9                    103.164            21.529             1.017            22.835
+B*-tree   10                   172.710            38.485             2.122            38.458
+Raw measurements written to ./result/random/raw_d8_random.csv
+============= TIMING (median ± sd over 10 reps) =============
+tree               insert ms         lookup ms          range ms          erase ms            height              fill
+----------------------------------------------------------------------------------
+B-tree        55.840 ± 3.41    20.704 ± 1.98     0.982 ± 0.10    32.586 ± 1.68                 6/6             0.658/0.553
+B+-tree       51.084 ± 2.46    19.262 ± 1.23     0.737 ± 0.13    23.479 ± 1.91                 6/6             0.686/0.518
+B*-tree     107.511 ± 21.47    21.751 ± 5.82     1.021 ± 0.38    22.757 ± 5.28                 6/6             0.784/0.551
+
+============= INTEGRITY =============
+tree         valid   periodic  survivors    deleted     ranges  verdict
+------------------------------------------------------------------------------
+B-tree         yes          0  50000/0/0  50000/0  125/0   PASS
+B+-tree        yes          0  50000/0/0  50000/0  125/0   PASS
+B*-tree        yes          0  50000/0/0  50000/0  125/0   PASS
+
+Legend: survivors = (checked / missing / wrong-value); deleted = (checked / still-found); ranges = (run / mismatched)
+periodic = number of check() failures during the erase phase
+
+Cross-check (all trees agree): OK
