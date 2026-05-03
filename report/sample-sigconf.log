@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.13)  3 MAY 2026 22:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.13)  3 MAY 2026 23:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -955,6 +955,9 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 6.6pt on input line 91.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 5.5pt on input line 91.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 
 
 
@@ -1956,7 +1959,7 @@ Class acmart Warning: A possible image without description on input line 509.
 
 
 [5.5 <./figure/perf_insert.png> <./figure/perf_lookup.png> <./figure/perf_range.png>]
-<figure/perf_erase.png, id=220, 420.6114pt x 311.2428pt>
+<figure/perf_erase.png, id=219, 420.6114pt x 311.2428pt>
 File: figure/perf_erase.png Graphic file (type png)
 <use figure/perf_erase.png>
 Package pdftex.def Info: figure/perf_erase.png  used on input line 524.
@@ -1965,7 +1968,7 @@ Package pdftex.def Info: figure/perf_erase.png  used on input line 524.
 
 Class acmart Warning: A possible image without description on input line 527.
 
-<figure/insertion_sorting_analysis.png, id=222, 1073.6913pt x 343.2825pt>
+<figure/insertion_sorting_analysis.png, id=221, 1073.6913pt x 343.2825pt>
 File: figure/insertion_sorting_analysis.png Graphic file (type png)
 <use figure/insertion_sorting_analysis.png>
 Package pdftex.def Info: figure/insertion_sorting_analysis.png  used on input line 547.
@@ -1990,7 +1993,7 @@ Overfull \hbox (3.15166pt too wide) in paragraph at lines 552--556
 \T1/LinuxLibertineT-TLF/m/n/9 (-20) Additionally, the in-put sort-ing dras-ti-cally af-fects per-for-mance. Sorted
  []
 
-<figure/integrity_combined.png, id=223, 1001.4213pt x 350.0277pt>
+<figure/integrity_combined.png, id=222, 1001.4213pt x 350.0277pt>
 File: figure/integrity_combined.png Graphic file (type png)
 <use figure/integrity_combined.png>
 Package pdftex.def Info: figure/integrity_combined.png  used on input line 559.
@@ -2036,18 +2039,18 @@ Package rerunfilecheck Info: File `sample-sigconf.out' has not changed.
 (rerunfilecheck)             Checksum: 9AB1241C95B44CC90AE0FF01B2BE0287;2963.
  ) 
 Here is how much of TeX's memory you used:
- 24397 strings out of 469626
- 408144 string characters out of 5475183
+ 24385 strings out of 469626
+ 407841 string characters out of 5475183
  987777 words of memory out of 5000000
  50146 multiletter control sequences out of 15000+600000
- 798556 words of font info for 383 fonts, out of 8000000 for 9000
+ 797464 words of font info for 375 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
  90i,12n,131p,1060b,632s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/LibertineMathMI.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/LibertineMathMI7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/LibertineMathRM.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/libertine/LinBiolinumTI.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/NewTXMI.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/txexs.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on sample-sigconf.pdf (6 pages, 1734044 bytes).
+Output written on sample-sigconf.pdf (6 pages, 1737926 bytes).
 PDF statistics:
- 334 PDF objects out of 1000 (max. 8388607)
- 278 compressed objects within 3 object streams
+ 333 PDF objects out of 1000 (max. 8388607)
+ 277 compressed objects within 3 object streams
  116 named destinations out of 1000 (max. 500000)
  84647 words of extra memory for PDF output out of 89155 (max. 10000000)
 
