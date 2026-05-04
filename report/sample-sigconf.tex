@@ -25,14 +25,14 @@
 
 \begin{document}
 
-\title{--}
+\title{CSE321 - Assignment \#1}
 
-\author{--}
+\author{\textcolor{blue}{Yeseung Lee (20211238)}}
 \affiliation{%
-  \institution{--}
+  \institution{UNIST}
   \country{South Korea}
 }
-\email{--}
+\email{yeseung.lee@unist.ac.kr}
 
 \renewcommand{\shortauthors}{\textcolor{blue}{Lee et al.}}
 
@@ -194,7 +194,13 @@ The full procedure is given in \Cref{alg:btree-erase}.
     \EndIf
     \State \Call{Do-Erase}{$node.children[i], key$}
 \EndProcedure
-\Statex
+\end{algorithmic}
+\end{algorithm}
+
+\addtocounter{algorithm}{-1}
+\begin{algorithm}[tbp]
+\caption{B-Tree Erase Algorithm (continued)}
+\begin{algorithmic}[1]
 \Procedure{Erase-Internal}{$node, i$}
     \State $L \gets node.children[i]$;\quad $R \gets node.children[i+1]$
     \If{$|L.keys| \ge t$}
@@ -225,7 +231,7 @@ The full procedure is given in \Cref{alg:btree-erase}.
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
-\FloatBarrier
+
 \subsubsection{Range Query}
 The \textit{Range} operation performs an in-order traversal bounded by $[low, high]$, descending into a child's subtree before visiting each key whose value falls in the range. \Cref{alg:btree-range} gives the pseudocode.
 
@@ -519,7 +525,7 @@ The U-shape disappears here because range queries are read-only and bypass the $
 \end{figure}
 As shown in \cref{fig:perf_erase}, the deletion performance forms a U-shaped curve with a sweet spot around $d \approx 64$--$128$, after which the $\Theta(d)$ memory shift cost within each leaf dominates. The relative ordering reveals two effects.
 
-\textbf{B$^+$-tree is consistently the fastest across the middle range} ($d=8$ to $256$). Since its data resides only in leaves, every erase reduces to a leaf-level removal followed by underflow handling, and the case-analysis of \textit{Erase-Internal} (descending to a predecessor or successor in the opposite subtree) is never invoked. \textbf{B*-tree is consistently the slowest across the same range}, even though it inherits B-tree's erase semantics. The cause is its higher fill factor itself: deleting a key from a leaf shifts all subsequent keys by one position, and a denser leaf simply has more keys to shift. At the extremes ($d = 4$ and $d = 512$) the differences vanish as either tree-traversal or per-leaf shift cost dominates uniformly across all three trees.
+\textbf{B$^+$-tree is consistently the fastest across the middle range} ($d=8$ to $256$). Since its data resides only in leaves, every erase reduces to a leaf-level removal followed by underflow handling, and the case-analysis of \textit{Erase-Internal} is never invoked. \textbf{B*-tree is consistently the slowest across the same range}, even though it inherits B-tree's erase semantics: its higher fill factor means denser leaves with more keys to shift on each removal. At the extremes ($d=4$ and $d=512$) the differences vanish as either traversal or shift cost dominates uniformly.
 
 For integrity, we periodically invoked a structural check (every 5,000 deletions, 10\% of the workload) verifying ordering, key/child counts, leaf-depth uniformity, and leaf-list pointers in B$^+$-tree, plus a final cross-check against \texttt{std::map}; both reported zero violations across all configurations.
 
@@ -532,7 +538,7 @@ For integrity, we periodically invoked a structural check (every 5,000 deletions
   \label{fig:perf_insert_sorting}
 \end{figure}
 
-For B-tree and B$^+$-tree, \textbf{reversed input is consistently the fastest, while sorted is comparable to random and becomes the slowest at large $d$ ($d \ge 256$)}. Although sequential inputs (sorted/reversed) confine activity to a single root-to-leaf path, the asymmetry traces to our split implementation: split retains the left half in the original node and allocates a new \textit{right sibling}. Reversed input keeps the leftmost path active, reusing the same memory and benefiting from cache locality, whereas sorted input continually shifts work into freshly allocated right siblings. \textbf{For B*-tree the pattern reverses: sorted is fastest.} Under random input B*-tree frequently triggers cooperative redistribution at $\Theta(d)$ cost; under sequential input the active leaf has no sibling on the active side, so redistribution never fires and B*-tree falls back to a plain split.
+For B-tree and B$^+$-tree, \textbf{reversed input is consistently the fastest, while sorted is comparable to random and becomes slowest at large $d$ ($d \ge 256$)}. Although sequential inputs confine activity to a single root-to-leaf path, the asymmetry traces to our split implementation: split retains the left half in the original node and allocates a new \textit{right sibling}. Reversed input thus keeps the leftmost path active and reuses the same memory, while sorted input continually shifts work into freshly allocated right siblings. \textbf{For B*-tree the pattern reverses: sorted is fastest.} Under random input B*-tree frequently triggers cooperative redistribution at $\Theta(d)$ cost; under sequential input the active leaf has no sibling on the active side, so redistribution never fires and B*-tree falls back to a plain split.
 
 \begin{figure}[H]
   \centering
