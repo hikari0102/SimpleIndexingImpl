@@ -13,46 +13,47 @@ Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
 Warning--empty address in Cormen_Leiserson_Rivest_Stein_2022
+Warning--empty address in graefe2001
 Warning--empty address in knuth1998
-You've used 2 entries,
+You've used 4 entries,
             6056 wiz_defined-function locations,
-            1494 strings with 18179 characters,
-and the built_in function-call counts, 1661 in all, are:
-= -- 148
-> -- 56
+            1510 strings with 18454 characters,
+and the built_in function-call counts, 3892 in all, are:
+= -- 403
+> -- 104
 < -- 0
-+ -- 19
-- -- 19
-* -- 121
-:= -- 195
-add.period$ -- 12
-call.type$ -- 2
-change.case$ -- 14
-chr.to.int$ -- 2
-cite$ -- 4
-duplicate$ -- 149
-empty$ -- 105
-format.name$ -- 23
-if$ -- 340
++ -- 34
+- -- 40
+* -- 265
+:= -- 405
+add.period$ -- 22
+call.type$ -- 4
+change.case$ -- 25
+chr.to.int$ -- 4
+cite$ -- 7
+duplicate$ -- 376
+empty$ -- 263
+format.name$ -- 48
+if$ -- 865
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 4
-newline$ -- 55
-num.names$ -- 14
-pop$ -- 63
+missing$ -- 13
+newline$ -- 72
+num.names$ -- 28
+pop$ -- 143
 preamble$ -- 1
-purify$ -- 29
+purify$ -- 56
 quote$ -- 0
-skip$ -- 52
+skip$ -- 137
 stack$ -- 0
-substring$ -- 101
-swap$ -- 12
+substring$ -- 311
+swap$ -- 38
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 30
-warning$ -- 2
-while$ -- 10
+type$ -- 76
+warning$ -- 3
+while$ -- 30
 width$ -- 0
-write$ -- 76
-(There were 2 warnings)
+write$ -- 116
+(There were 3 warnings)

@@ -18,4 +18,6 @@ public:
     virtual bool check() const = 0;
     virtual int height() const = 0;
     virtual double fill_factor() const = 0;
+    virtual std::size_t total_splits() const = 0;
+    virtual std::size_t total_redistributes() const = 0;
 };

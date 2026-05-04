@@ -148,6 +148,8 @@ struct Result {
     double fill_after_erase = 0.0;
     int height_after_insert = 0;
     int height_after_erase = 0;
+    size_t splits = 0;
+    size_t redists = 0;
 };
 
 template <typename Clock = std::chrono::steady_clock>
@@ -159,10 +161,12 @@ double ms_since(typename Clock::time_point t0) {
 Result run_bench(dbindex<int, int>& tree, const Workload& w, bool do_periodic_check) {
     Result r;
     auto t0 = std::chrono::steady_clock::now();
-    for(std::size_t i = 0; i < w.ins_keys.size(); i++) {
+    for(int i = 0; i < (int)w.ins_keys.size(); i++) {
         tree.insert(w.ins_keys[i], w.ins_rids[i]);
     }
     r.ms_insert = ms_since(t0);
+    r.splits = tree.total_splits();
+    r.redists = tree.total_redistributes();
     r.size_after_insert = tree.size();
     r.valid_after_insert = tree.check();
     r.height_after_insert = tree.height();
@@ -302,6 +306,8 @@ struct Stats {
     double fill_after_erase = 0.0;
     int height_after_insert = 0;
     int height_after_erase = 0;
+    int insert_splits = 0;
+    int insert_redists = 0;
 };
 
 static double median_of(std::vector<double> v) {
@@ -360,6 +366,8 @@ Stats run_reps(const std::string& name, TreeFactory make_tree, const Workload& w
             s.height_after_erase = r.height_after_erase;
             s.fill_after_insert = r.fill_after_insert;
             s.fill_after_erase = r.fill_after_erase;
+            s.insert_splits = r.splits;
+            s.insert_redists = r.redists;
         }
     }
     s.insert_med = median_of(s.ins); 
@@ -577,6 +585,17 @@ int main(int argc, char** argv) {
               << "deleted = (checked / still-found); ranges = (run / mismatched)\n";
     std::cout << "periodic = number of check() failures during the erase phase\n";
 
+
+    std::cout << "============= SPLIT/REDISTRIBUTES =============\n"; 
+    std::cout << std::left << std::setw(10) << "tree"
+              << std::right
+              << std::setw(18) << "SPLIT"
+              << std::setw(18) << "REDISTRIBUTES" << "\n";
+    for(auto& s : stats) {
+        std::cout << std::left << std::setw(10) << s.name;
+        std::cout << std::right << std::setw(18) << s.insert_splits;
+        std::cout << std::right << std::setw(18) << s.insert_redists << "\n";
+    }
     bool xcheck = true;
     for(std::size_t i = 1; i < stats.size(); i++) {
         if(stats[i].lookup_hits != stats[0].lookup_hits || stats[i].range_total != stats[0].range_total || stats[i].size_after_insert != stats[0].size_after_insert || stats[i].size_after_erase != stats[0].size_after_erase) {

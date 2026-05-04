@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{2}
+\begin{thebibliography}{4}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -36,12 +36,29 @@
 \providecommand\natexlab[1]{#1}
 \providecommand\showeprint[2][]{arXiv:#2}
 
+\bibitem[Comer(1979)]%
+        {comer1979}
+\bibfield{author}{\bibinfo{person}{Douglas Comer}.} \bibinfo{year}{1979}\natexlab{}.
+\newblock \showarticletitle{Ubiquitous {B}-Tree}.
+\newblock \bibinfo{journal}{\emph{Comput. Surveys}} \bibinfo{volume}{11}, \bibinfo{number}{2} (\bibinfo{year}{1979}), \bibinfo{pages}{121--137}.
+\newblock
+\href{https://doi.org/10.1145/356770.356776}{doi:\nolinkurl{10.1145/356770.356776}}
+
+
 \bibitem[Cormen et~al\mbox{.}(2022)]%
         {Cormen_Leiserson_Rivest_Stein_2022}
 \bibfield{author}{\bibinfo{person}{Thomas~H. Cormen}, \bibinfo{person}{Charles~Eric Leiserson}, \bibinfo{person}{Ronald~L. Rivest}, {and} \bibinfo{person}{Clifford Stein}.} \bibinfo{year}{2022}\natexlab{}.
 \newblock \bibinfo{booktitle}{\emph{Introduction to algorithms}}.
 \newblock \bibinfo{publisher}{The MIT Press}.
 \newblock
+
+
+\bibitem[Graefe and Larson(2001)]%
+        {graefe2001}
+\bibfield{author}{\bibinfo{person}{Goetz Graefe} {and} \bibinfo{person}{Per-{\AA}ke Larson}.} \bibinfo{year}{2001}\natexlab{}.
+\newblock \showarticletitle{{B}-Tree Indexes and {CPU} Caches}. In \bibinfo{booktitle}{\emph{Proceedings of the 17th International Conference on Data Engineering (ICDE)}}. \bibinfo{publisher}{IEEE}, \bibinfo{pages}{349--358}.
+\newblock
+\href{https://doi.org/10.1109/ICDE.2001.914847}{doi:\nolinkurl{10.1109/ICDE.2001.914847}}
 
 
 \bibitem[Knuth(1998)]%

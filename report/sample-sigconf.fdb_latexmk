@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex sample-sigconf"] 1777814445.95169 "sample-sigconf.aux" "sample-sigconf.bbl" "sample-sigconf" 1777817366.83863 0
+["bibtex sample-sigconf"] 1777865235.22629 "sample-sigconf.aux" "sample-sigconf.bbl" "sample-sigconf" 1777865239.2292 0
   "./ACM-Reference-Format.bst" 1777816654 90749 48abc1cbed6fafc6fc31528e3aa606ca ""
-  "./reference.bib" 1777816655 455 96ebe8df27fbd8cc94a27f4b35c29f0b ""
-  "sample-sigconf.aux" 1777817365 8678 d8246d4889d08315fb2bc8de62b9f11b "pdflatex"
+  "./reference.bib" 1777865196 1096 550da5887105e23229fe5ec9f992f17e ""
+  "sample-sigconf.aux" 1777865238 9419 e6ce586e6205acb2644286ff72f50277 "pdflatex"
   (generated)
   "sample-sigconf.bbl"
   "sample-sigconf.blg"
   (rewritten before read)
-["pdflatex"] 1777817361.23522 "c:/Users/yesng/Programming/CSE321/Assign1/report/sample-sigconf.tex" "sample-sigconf.pdf" "sample-sigconf" 1777817366.8391 0
+["pdflatex"] 1777865235.63289 "c:/Users/yesng/Programming/CSE321/Assign1/report/sample-sigconf.tex" "sample-sigconf.pdf" "sample-sigconf" 1777865239.22968 0
   "acmart.cls" 1777816654 119755 fb6b15d8a2b05651c52a19a84ffb7b05 ""
-  "c:/Users/yesng/Programming/CSE321/Assign1/report/sample-sigconf.tex" 1777817360 30228 679ddde00648be2c505b662d596aa91b ""
+  "c:/Users/yesng/Programming/CSE321/Assign1/report/sample-sigconf.tex" 1777865230 32511 1c6c41e3bddcd9210c8d6d49f9fcef1d ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-4.enc" 1744529891 7693 0f2dce6d313c82989ec3a67fc24df2a0 ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc" 1744530365 2921 8ca0eb0831f9bc5da080d3697cfe67bf ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc" 1744530365 2933 9ad527ce78d7c5fa0a642dead095f172 ""
@@ -89,6 +89,7 @@
   "c:/texlive/2025/texmf-dist/fonts/vf/public/libertine/LinLibertineTI-tlf-t1.vf" 1744530366 1768 b3bfd8ed1fe2dce5fd19610abe4c3dbe ""
   "c:/texlive/2025/texmf-dist/fonts/vf/public/newtx/ntxexx.vf" 1744531152 1716 73c8d39d4c3ace9ec98a8f066bb3b494 ""
   "c:/texlive/2025/texmf-dist/fonts/vf/public/newtx/ntxsy.vf" 1744531152 1792 7cf99effbd74f7851ca7683a6d12b685 ""
+  "c:/texlive/2025/texmf-dist/fonts/vf/public/newtx/ntxsy5.vf" 1744531152 1856 05afd1fb7a543fb973348907ffdabf53 ""
   "c:/texlive/2025/texmf-dist/fonts/vf/public/newtx/ntxsy7.vf" 1744531152 1940 bf4bac1135a7513fb45cfd9280176019 ""
   "c:/texlive/2025/texmf-dist/fonts/vf/public/newtx/nxlmi.vf" 1744531152 2744 3e5ba39e1559219ae379b7645e2f9524 ""
   "c:/texlive/2025/texmf-dist/fonts/vf/public/newtx/nxlmi7.vf" 1744531152 2740 2574d1692bc06933fa73eb18c93daedb ""
@@ -221,16 +222,16 @@
   "c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1744533603 5567782 00e0fb0c7cc9c7361a97e3a2230dfbe7 ""
   "c:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1744533724 3561275 6e1b0cc7d673bd9ffffe9b8dc146a639 ""
   "c:/texlive/2025/texmf.cnf" 1744533585 713 e69b156964470283e0530f5060668171 ""
-  "figure/insertion_sorting_analysis.png" 1777816654 383049 649ebc72ffe43758da601485f495efb1 ""
-  "figure/integrity_combined.png" 1777816654 208336 0f1ef16969b240c8f8e5e8873ee5db31 ""
-  "figure/perf_erase.png" 1777816655 219641 d9edc1bfe0f4d442b2f98a62f70fd019 ""
-  "figure/perf_insert.png" 1777816655 217378 49176de21581563fe9d20682169921ed ""
-  "figure/perf_lookup.png" 1777816655 208114 e580e45e3bd670c546fb57c254411a27 ""
-  "figure/perf_range.png" 1777816655 227617 02071bd303d4f3455acd535d97f74d2e ""
-  "sample-sigconf.aux" 1777817365 8678 d8246d4889d08315fb2bc8de62b9f11b "pdflatex"
-  "sample-sigconf.bbl" 1777816655 2447 a708ca0adab56b1ba532ae16d33bbead "bibtex sample-sigconf"
-  "sample-sigconf.out" 1777817365 2963 9ab1241c95b44cc90ae0ff01b2be0287 "pdflatex"
-  "sample-sigconf.tex" 1777817360 30228 679ddde00648be2c505b662d596aa91b ""
+  "figure/insertion_sorting_analysis.png" 1777860541 415860 4c904e246e015631ac414d1a94050aa2 ""
+  "figure/integrity_combined.png" 1777860542 202241 6074531ae83800f29c3a03605a3eac98 ""
+  "figure/perf_erase.png" 1777859901 236807 0bfd479c6c99904f08409aaf16b25c7f ""
+  "figure/perf_insert.png" 1777859899 239392 0c35a62e615c725570df7d7cb8221e1b ""
+  "figure/perf_lookup.png" 1777859900 239265 9391e2fbc8dd9fed772389cf4d8ee9e4 ""
+  "figure/perf_range.png" 1777859900 250115 5de60a9f40664fda64638c9dc5f1399a ""
+  "sample-sigconf.aux" 1777865238 9419 e6ce586e6205acb2644286ff72f50277 "pdflatex"
+  "sample-sigconf.bbl" 1777865235 3377 88dc0d8c7a3aeac679b715ccdfbc6915 "bibtex sample-sigconf"
+  "sample-sigconf.out" 1777865238 3070 cbfec7a29791518afb9f4694d3501fe3 "pdflatex"
+  "sample-sigconf.tex" 1777865230 32511 1c6c41e3bddcd9210c8d6d49f9fcef1d ""
   (generated)
   "sample-sigconf.aux"
   "sample-sigconf.log"

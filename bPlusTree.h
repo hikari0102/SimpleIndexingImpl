@@ -174,6 +174,13 @@ public:
         return (double)total_keys / ((double)node_count * (double)max_keys());
     }
 
+    std::size_t total_splits() const override { 
+        return split_count_; 
+    }
+    std::size_t total_redistributes() const override { 
+        return 0; 
+    }
+
 private:
     struct Node {
         bool is_leaf;
@@ -212,6 +219,7 @@ private:
     LeafNode* leaf_head = NULL;
     std::size_t size_ = 0;
     Compare cmp_;
+    std::size_t split_count_ = 0;
     bool eq(const Key& a, const Key& b) const {
         return !cmp_(a, b) && !cmp_(b, a);
     }
@@ -254,6 +262,7 @@ private:
         }
     }
     void split_leaf_child(InternalNode* parent, int i) {
+        split_count_++;
         LeafNode* full_node = as_leaf(parent->children[i]);
         LeafNode* sibling = new LeafNode();
         sibling->keys.assign(std::make_move_iterator(full_node->keys.begin() + min_deg), std::make_move_iterator(full_node->keys.end()));
@@ -273,6 +282,7 @@ private:
     }
 
     void split_internal_child(InternalNode* parent, int i) {
+        split_count_++;
         InternalNode* full_node = as_internal(parent->children[i]);
         InternalNode* sibling = new InternalNode();
         sibling->keys.assign(std::make_move_iterator(full_node->keys.begin() + min_deg), std::make_move_iterator(full_node->keys.end()));

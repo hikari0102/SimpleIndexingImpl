@@ -25,14 +25,14 @@
 
 \begin{document}
 
-\title{CSE321 - Assignment \#1}
+\title{--}
 
-\author{\textcolor{blue}{Yeseung Lee (20211238)}}
+\author{--}
 \affiliation{%
-  \institution{UNIST}
+  \institution{--}
   \country{South Korea}
 }
-\email{yeseung.lee@unist.ac.kr}
+\email{--}
 
 \renewcommand{\shortauthors}{\textcolor{blue}{Lee et al.}}
 
@@ -47,9 +47,7 @@
 
 
 \section{INTRODUCTION}
-Various tree structures are used for implementing the efficient indexing in the database in many systems.
-In this report, we implemented three tree data structures (B-Tree, B$^+$-Tree, B*-Tree) used for database indexing.
-Also, we conducted a integrity check and various timing benchmarks for insert, lookup, range operation, and erase with different order of the trees.
+Tree-based indexes are fundamental to many database systems for accelerating point lookups, range queries, and updates. Among the many B-tree variants surveyed in the literature~\cite{comer1979}, three are particularly important: the original B-tree, the B$^+$-tree, which improves range scans by linking leaves, and the B*-tree, which trades insertion cost for higher node occupancy. In this report, we implement all three from scratch and compare their performance under a range of fan-out parameters across four operation classes (insert, point lookup, range query, and erase) together with structural integrity checks.
 
 Throughout this report we follow the CLRS\cite{Cormen_Leiserson_Rivest_Stein_2022} minimum-degree convention $t$, where a non-root node holds between $t - 1$ and $2t - 1$ keys. 
 Our implementation exposes the fan-out order $d$ (Knuth's convention, the maximum number of children per node) as the configurable external parameter, and internally converts it to $t=\left\lceil \frac{d}{2} \right\rceil$. 
@@ -59,10 +57,10 @@ Throughout the experiments, the reported tree order $d$ corresponds to an intern
 \section{Fundamental Index Structure (B-tree)}
 \subsection{B-Tree}
 \label{sec:btree}
-A B-tree is a tree data structure that have following properties\cite{Cormen_Leiserson_Rivest_Stein_2022}:
+A B-tree is a tree data structure that has the following properties\cite{Cormen_Leiserson_Rivest_Stein_2022}:
 \begin{itemize}[noitemsep, topsep=0pt, parsep=0pt, partopsep=0pt]
-    \item Each node $x$ have a $x.n$ keys and the key is stored in monotonically increasing order.
-    \item Each internal node $x$ have $x.n + 1$ pointers to its children.
+    \item Each node $x$ has $x.n$ keys stored in monotonically increasing order.
+    \item Each internal node $x$ has $x.n + 1$ pointers to its children.
     \item The $i$-th key of the node $x$ $x.key_{i}$ separate the ranges of keys stored in each subtree: if $k_{i}$ is any key stored in the subtree with root $i$-th child of $x$, 
     then $k_{1} \le x.key_{1} \le k_{2} \le x.key_{2} \le \dots \le x.key_{x.n} \le k_{x.n+1}$
     \item All leaves have the same depth.
@@ -259,7 +257,7 @@ The \textit{Range} operation performs an in-order traversal bounded by $[low, hi
 A B$^+$-tree shares the structural invariants of a B-tree (\Cref{sec:btree}) but differs in two key ways: (1) all satellite data (record pointers) is stored only in leaf nodes, while internal nodes hold only routing keys; and (2) leaf nodes are linked as a doubly-linked list to support efficient sequential access. Internal-node routing uses strict inequalities --- if $k$ is in the subtree of the $i$-th child then $k < x.key_i$, and equal keys descend to the right.
 
 \subsubsection{Search}
-Since B$^+$-Tree contains the data only in the leaf nodes, it first finds the leaf node contains the key and search the leaf node iteratively. The pseudocode is given in \Cref{alg:bplus-search}.
+Since B$^+$-tree contains data only in leaf nodes, \textit{Search} first descends to the leaf containing the key, then searches within the leaf. The pseudocode is given in \Cref{alg:bplus-search}.
 
 \begin{algorithm}[tbp]
 \caption{B+ Tree Search Algorithm}
@@ -288,10 +286,7 @@ Since B$^+$-Tree contains the data only in the leaf nodes, it first finds the le
 
 \subsubsection{Insert}
 
-The \textit{Insert} operation of the B$^+$-Tree have the same method as B-Tree (\Cref{alg:btree-insert}).
-However, the \textit{Split} for leaf node is little different. It doesn't remove the mid key from the leaf node.
-Instead, it copied from the leaf node to parent node and serve as router in the parent node.
-\textit{Split} for internal node is same as the normal B-Tree. The leaf split procedure is shown in \Cref{alg:bplus-insert}.
+The \textit{Insert} operation of the B$^+$-tree follows the same descent as B-tree (\Cref{alg:btree-insert}). The leaf split, however, is slightly different: instead of moving the median key up to the parent, the median is \emph{copied} to the parent as a routing key while remaining in the leaf. The internal split is identical to B-tree's. The leaf split procedure is shown in \Cref{alg:bplus-insert}.
 
 \begin{algorithm}[tbp]
 \caption{B+ Tree Insert Algorithm}
@@ -321,7 +316,7 @@ Instead, it copied from the leaf node to parent node and serve as router in the 
 
 \subsubsection{Erase}
 
-The \textit{Erase} method follows the same logic as B-Tree, but with two simplifications: actual key removal only occurs at leaf nodes, and the case-analysis of B-tree's \textsc{Erase-Internal} is unnecessary because internal keys are mere routing copies. Stale internal routing keys are tolerated since they still correctly partition the subtrees. \textsc{Merge-Two} is identical to B-tree's, except that when merging two leaves it additionally updates the leaf-list pointer ($L.next \gets R.next$). \Cref{alg:bplus-erase} shows the modified \textsc{Do-Erase}.
+The \textit{Erase} method follows the same logic as B-tree, but with two simplifications: actual key removal only occurs at leaf nodes, and the case-analysis of B-tree's \textsc{Erase-Internal} is unnecessary because internal keys are mere routing copies. Stale internal routing keys are tolerated since they still correctly partition the subtrees. \textsc{Merge-Two} is identical to B-tree's, except that when merging two leaves it additionally updates the leaf-list pointer ($L.next \gets R.next$). \Cref{alg:bplus-erase} shows the modified \textsc{Do-Erase}.
 
 \begin{algorithm}[tbp]
 \caption{B+ Tree Erase Algorithm}
@@ -345,8 +340,7 @@ The \textit{Erase} method follows the same logic as B-Tree, but with two simplif
 
 \subsubsection{Range}
 
-Since B$^+$-Tree have a links between leaf nodes and actual data is only contained in the leaf nodes, the \textit{Range} leverages this property.
-\textit{Range} operation finds the leaf node with the low key and iteratively traverse the leaf nodes instead of in-order traversal in B-Tree. The pseudocode is given in \Cref{alg:bplus-range}.
+Since the B$^+$-tree links its leaf nodes and stores actual data only in leaves, \textit{Range} leverages this structure: it finds the leaf containing the low key and iteratively traverses the leaf list, instead of performing an in-order recursion as in B-tree. The pseudocode is given in \Cref{alg:bplus-range}.
 
 \begin{algorithm}[tbp]
 \caption{B+ Tree Range Query}
@@ -371,13 +365,20 @@ Since B$^+$-Tree have a links between leaf nodes and actual data is only contain
 
 
 \subsection{B*-Tree}
-A B*-tree is a variant of the B-tree introduced by Knuth\cite{knuth1998} that aims for higher average node occupancy. While a standard B-tree guarantees $\ge t-1$ keys per non-root node ($\approx 1/2$ full), a B*-tree targets approximately $2/3$ occupancy by deferring splits.
+A B*-tree is a variant of the B-tree introduced by Knuth\cite{knuth1998} that aims for higher average node occupancy. 
+While a standard B-tree guarantees $\ge t-1$ keys per non-root node ($\approx 1/2$ full), a B*-tree targets approximately $2/3$ occupancy by deferring splits.
 
 \subsubsection{Insert Policy}
-A B*-tree shares the same structural invariants as a B-tree (same capacity, leaf-depth, routing semantics); only the split policy on insertion differs. When a child becomes full, the algorithm first attempts \textbf{cooperative redistribution}: if an adjacent sibling has spare capacity, keys are redistributed between them and the parent's separator is updated, allocating no new node. Only when both adjacent siblings are also full does the algorithm fall back to a \textbf{$2 \to 3$ split}: the full child and one full sibling (a combined $4t - 3$ keys including the separator) are repartitioned into three nodes of approximately $\lceil (4t-3)/3 \rceil$ keys each, promoting two new separators. Newly created nodes thus start at $\approx 2/3$ capacity instead of B-tree's $1/2$. \Cref{alg:bstar-split} shows the modified \textsc{Do-Split}; \textsc{Redistribute-With-Left} is the symmetric mirror of \textsc{Redistribute-With-Right} and is omitted.
+A B*-tree shares the same structural invariants as a B-tree (same capacity, leaf-depth, routing semantics); only the split policy on insertion differs. 
+When a child becomes full, the algorithm first attempts \textbf{cooperative redistribution}: if an adjacent sibling has spare capacity, keys are redistributed between them and the parent's separator is updated, allocating no new node. Only when both adjacent siblings are also full does the algorithm fall back to a \textbf{$2 \to 3$ split}: the full child and one full sibling (a combined $4t - 3$ keys including the separator) are repartitioned into three nodes of approximately $\lceil (4t-3)/3 \rceil$ keys each, promoting two new separators. 
+Newly created nodes thus start at $\approx 2/3$ capacity instead of B-tree's $1/2$. \Cref{alg:bstar-split} shows the modified \textsc{Do-Split}; \textsc{Redistribute-With-Left} is the symmetric mirror of \textsc{Redistribute-With-Right} and is omitted.
 
 \subsubsection{Erase Policy}
-Maintaining a strict $2/3$ minimum on \textit{erase} would require a $3 \to 2$ merge mechanism that is mathematically impossible at certain corner cases (e.g., a non-leaf root with two children both at the strict minimum, whose combined size exceeds capacity). Real-world implementations such as HFS+ and NTFS therefore fall back to B-tree's erase semantics, and we follow the same practical choice: \textit{Erase}, \textit{Erase-Internal}, and \textit{Fill} are inherited unchanged from B-tree (\Cref{alg:btree-erase}). The $\approx 2/3$ occupancy is thus a statistical tendency from insertions, not a strict invariant maintained on deletion.
+Maintaining a strict $2/3$ minimum on \textit{erase} would require a  $3 \to 2$ merge mechanism symmetric to the insert-side $2 \to 3$ split. 
+While such a primitive can be defined, it offers no asymptotic benefit: erase already runs in $O(t \log_t n)$, and the strict-$2/3$ variant only shifts the post-deletion lower bound on occupancy from $\approx 1/2$ to $\approx 2/3$. 
+Furthermore, the strict variant  introduces corner cases (e.g., a non-leaf root with two children both at the strict minimum, whose combined size exceeds capacity) that require additional rebalancing logic. 
+Since the higher fill factor of a B*-tree is primarily established by insertions and persists as long as deletions are infrequent, we adopt B-tree's simpler erase semantics: \textit{Erase}, \textit{Erase-Internal}, and \textit{Fill} are inherited unchanged from B-tree (\Cref{alg:btree-erase}). 
+The $\approx 2/3$ occupancy is thus a statistical tendency from insertions, not an invariant maintained on every deletion.
 
 \begin{algorithm}[tbp]
 \caption{B* Tree Split and Redistribution}
@@ -451,121 +452,99 @@ For all three trees, the height is $O(\log_t n)$ and per-node key search is $O(t
 
 \section{Experimental Results and Analysis}
 \subsection{Experiment Setup}
-We run the insertion of $100000$ datas in given csv file into the tree and indexing of $100000$ keys, which is consists of inserted key in the given data and random keys that may not be in the data.
-Also, we run the range operations in various range sizes where it calculates the sum of the 1000x of the GPA of all students in given range.
-Morever, we performed the erase of $50000$ random keys in the tree.
-During the erase, it checks whether the tree violates the property of the trees such as node key size and same height prooperty.
-We used a average data of 10 repetitions. To remove a difference caused by the cache and other system issues, we run the 2 times of workload before the actual run.
-The environment is WSL2 on the Windows 11 with Intel(R) Core(TM) Ultra 7 258V CPU and 16GB RAM.
-The code is compiled with -std=c++17 -fsanitize=address -O2 flags.
-The raw data in text and csv form and implementation code is available at GitHub repository: \url{https://github.com/hikari0102/SimpleIndexingImpl}.
+We insert $100{,}000$ records from the provided CSV file into each tree, then perform $100{,}000$ point lookups (a mix of inserted keys and random keys that may not be present), several range queries of varying sizes computing the sum of $1000\times\textrm{GPA}$ for all students within the range, and finally $50{,}000$ random key deletions. During the deletion phase, a structural check verifies that the tree satisfies its invariants (per-node key counts, leaf-depth uniformity, and leaf-list connectivity for B$^+$-tree). Each timing point is the average of 10 repetitions, with two warmup runs to mitigate cache and frequency effects. The environment is WSL2 on Windows 11 with an Intel Core Ultra 7 258V CPU and 16~GB RAM. The performance code is compiled with \texttt{-std=c++17 -O2}; structural integrity was independently verified under a separate \texttt{-fsanitize=address} build, which reported zero violations across all workloads. The raw data and implementation code are available at \url{https://github.com/hikari0102/SimpleIndexingImpl}.
 
 \subsection{Insertion and Parameter Tuning}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.7\linewidth]{figure/perf_insert.png}
-  \caption{Performance graph for inserting 100000 datas}
+  \includegraphics[width=0.45\linewidth]{figure/perf_insert.png}
+  \caption{Performance graph for inserting 100{,}000 records}
   \label{fig:perf_insert}
 \end{figure}
 
-As shown in \cref{fig:perf_insert}, for the insertion, B*-Tree shows the worst performance in all orders.
-B-Tree and B+-Tree shows a insignificant differences on ther performance.
-With the respect to the orders, the performance is increasing as the order grows until the order reaches at some point around 100, after which the performance decreases.
+\begin{table}[H]
+\centering
+\small
+\caption{Structural events during random insertion of 100,000 keys (selected $d$). 
+$r$ = redists / (splits + redists) for B*-tree.}
+\label{tab:splits}
+\begin{tabular}{rrrrrr}
+\toprule
+$d$ & B-tree & B$^+$-tree & B*-tree splits & B*-tree redists & $r$ \\
+\midrule
+4   & 57{,}102 & 82{,}352 & 51{,}272 & 25{,}314  & 33\% \\
+16  &  9{,}803 & 10{,}473 &  8{,}072 & 17{,}100  & 68\% \\
+64  &  2{,}295 &  2{,}360 &  1{,}846 & 10{,}433  & 85\% \\
+256 &     536  &     541  &     446  &  5{,}117  & 92\% \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-Unlike B-tree and B$^+$-tree, which perform a simple $1 \to 2$ node split upon overflow, the B*-tree delays the split by attempting to redistribute keys to adjacent siblings to maintain a $2/3$ minimum occupancy. 
-If the siblings are also full, it performs a complex $2 \to 3$ split, which causes significant memory copy overhead and frequent cache misses during the insertion phase.
+As shown in \Cref{fig:perf_insert}, B*-tree exhibits the worst performance across all orders while B-tree and B$^+$-tree are nearly indistinguishable, and the performance forms a U-shape with a sweet spot at $d \approx 64$--$100$. The B*-tree penalty stems from its split policy: rather than performing a simple $1 \to 2$ split, it first attempts cooperative redistribution (rewriting two adjacent nodes), and falls back to a $2 \to 3$ split (rewriting three nodes plus the parent) when both siblings are full --- both at $\Theta(d)$ memory-copy cost per occurrence. The U-shape itself reflects the well-known trade-off between tree height ($O(\log_d n)$, favoring large $d$) and intra-node cost~\cite{graefe2001}: with each cache line capable of holding only a fixed number of keys, increasing $d$ beyond the sweet spot ($d \approx 100$) brings diminishing returns on height while linearly increasing the per-node memory shift cost.
 
-The U-shaped performance curve across different orders illustrates the trade-off between tree height and intra-node operations.
-As the order $d$ increases up to approximately 100, the tree height $O(\log_d n)$ decreases logarithmically.  
-However, as the order continues to grow beyond the sweet spot ($d > 100$), the size of the internal sorted arrays becomes excessively large.
-Inserting the keys in such large nodes causes many memory move overhead, which overshadows the benefits of a shallower tree, leading to performance drop.
-
+\Cref{tab:splits} confirms this quantitatively: B*-tree's redistribute share rises monotonically from $33\%$ at $d=4$ to over $92\%$ at $d \ge 256$, since larger nodes are more likely to have spare sibling capacity. Although B*-tree allocates fewer nodes overall, each redistribute still rewrites two adjacent nodes at $\Theta(d)$ cost, and these events are several times more frequent than the splits they avoid --- explaining its persistent insertion penalty. The B$^+$-tree's higher split count at small $d$ reflects leaf-level splits frequently propagating to internal-level splits when leaves are tiny; at $d \ge 64$ the two trees converge.
 \subsection{Indexing and Parameter Tuning}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.7\linewidth]{figure/perf_lookup.png}
-  \caption{Performance graph for searching 100000 datas}
+  \includegraphics[width=0.45\linewidth]{figure/perf_lookup.png}
+  \caption{Performance graph for searching 100{,}000 records}
   \label{fig:perf_lookup}
 \end{figure}
 
-All trees shows a similar performances, except for $d = 4$, where the B*-Tree performance is the worst.
-B*-tree exhibits noticeably higher lookup latency compared to the other trees.
-This becomes the strength of the B*-Tree because it reduces the memory usage.
-However, in case of small degree, the CPU can fits the node within a single CPU cache line, the I/O benefits of the higher fill factor are removed.
-Instead, extra intra-node comparison cycles results the performance decreases.
+All three trees show nearly identical lookup performance for $d \ge 8$, with a U-shape and sweet spot around $d \approx 64$ where tree height is minimized while intra-node search remains cheap. \textbf{At $d=4$, however, the B*-tree is fastest while B+-tree is slowest.} This inversion at small $d$ reflects two compensating effects: B*-tree's higher fill factor ($\approx 0.78$ vs $\approx 0.58$) yields a tree one level shallower, saving one full memory hop per lookup; B+-tree, conversely, must always descend to a leaf even when an internal routing key matches, paying the extra hop unconditionally.
 
-It also shows U-shaped performance curve across different orders illustrates the trade-off between tree height and intra-node operations.
-The reason of U-shpae is same as insertion.
+For $d \ge 100$, B*-tree gradually becomes slower than the other two: its denser nodes incur more intra-node comparisons per descent --- the same density that helped at small $d$ becomes a liability when height is no longer the dominant cost. The U-shape across $d$ reflects the same height vs intra-node trade-off as insertion.
 
 
 \subsection{Range query and Tree types}
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
-  \includegraphics[width=0.7\linewidth]{figure/perf_range.png}
+  \includegraphics[width=0.45\linewidth]{figure/perf_range.png}
   \caption{Performance graph for range query}
   \label{fig:perf_range}
 \end{figure}
 
-Note that y-axis of \Cref{fig:perf_range} is log scaled.
-
-B+-tree performs the best in almost every $d$ values while other two tree performance is similar.
-This shows the property of the B+-tree which contains the datas only in the leaf nodes and links between leaf nodes.
-B+-tree range operation utilizes this property to achieve faster range query in sequential manner, while other trees needs to switch between parent node and child node during range query.
-
-The U-shaped performance curve doesn't showed in this graph.
-This is because This is because range queries perform read-only sequential scans, completely bypassing the expensive $O(d)$ memory shifting operations required for node modifications.
-Moreover, larger $d$ makes more keys are packed into a single node, which utilizes the CPU cache operations during range operation.
+Note that the y-axis of \Cref{fig:perf_range} is log-scaled. 
+B$^+$-tree consistently performs the best across all $d$ values, while B-tree and B*-tree are similar; this is because B$^+$-tree exploits its leaf-list links to scan range results sequentially without descending back through internal nodes. 
+The U-shape disappears here because range queries are read-only and bypass the $\Theta(d)$ memory shifts that penalize insert and erase at large $d$.
 
 \subsection{Erase and Integrity}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.7\linewidth]{figure/perf_erase.png}
+  \includegraphics[width=0.45\linewidth]{figure/perf_erase.png}
   \caption{Performance graph for erase}
   \label{fig:perf_erase}
 \end{figure}
-As shown in \cref{fig:perf_erase}, the deletion performance forms a U-shaped curve, penalised by $O(d)$ memory shifting overhead at large orders. 
-However, an interesting inversion occurs between the B*-tree and B$^+$-tree around $d=16$.
+As shown in \cref{fig:perf_erase}, the deletion performance forms a U-shaped curve with a sweet spot around $d \approx 64$--$128$, after which the $\Theta(d)$ memory shift cost within each leaf dominates. The relative ordering reveals two effects.
 
-On the small degree, B+-Tree utilizes the property that it contains the actual data only at the leaf node which allows the bypass of \textit{Erase-Internal}, which contains the time consuming operation such as find succesors.
-However, on large tree, although the B*-tree inherits its erase algorithm directly from the standard B-tree without a strict $3 \to 2$ merge invariant, its superior performance stems from its initial structural density.
-Because B*-tree nodes hove around 66\% density, the other keys performs as `Extra Buffer' which prevents underflow.
-Underflow needs a huge structual modifications such as merge, rotate, and borrow. 
-By statistically avoiding expensive structural modifications (such as node rotations and merges), the B*-tree achieves the most efficient deletion times at larger orders.
+\textbf{B$^+$-tree is consistently the fastest across the middle range} ($d=8$ to $256$). Since its data resides only in leaves, every erase reduces to a leaf-level removal followed by underflow handling, and the case-analysis of \textit{Erase-Internal} (descending to a predecessor or successor in the opposite subtree) is never invoked. \textbf{B*-tree is consistently the slowest across the same range}, even though it inherits B-tree's erase semantics. The cause is its higher fill factor itself: deleting a key from a leaf shifts all subsequent keys by one position, and a denser leaf simply has more keys to shift. At the extremes ($d = 4$ and $d = 512$) the differences vanish as either tree-traversal or per-leaf shift cost dominates uniformly across all three trees.
 
-For the integrity, we ran the check internal operation which check the property of the tree such as monotonically increasing keys, number of keys and children, height of leaf nodes, links on the leaf nodes in B+-Tree.
-The check operation ran periodically during the erasing keys and it results zero violations.
-Specifically, the internal check function was called after every 5000 deletions (10\% of the workload)
-Also, we checked the cross-check between reference STL map. 
-After the completion of workload, the total size, remaining keys, values are compared with STL map implementation, ensuring the implementation is algorithmically sound and robust.
+For integrity, we periodically invoked a structural check (every 5,000 deletions, 10\% of the workload) verifying ordering, key/child counts, leaf-depth uniformity, and leaf-list pointers in B$^+$-tree, plus a final cross-check against \texttt{std::map}; both reported zero violations across all configurations.
 
 \section{Additional Experiments: Insert order, Fill factor, and Height}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{figure/insertion_sorting_analysis.png}
+  \includegraphics[width=0.8\linewidth]{figure/insertion_sorting_analysis.png}
   \caption{Performance graph for various input order}
   \label{fig:perf_insert_sorting}
 \end{figure}
 
-Additionally, the input sorting drastically affects performance. 
-Sorted inputs append to the rightmost leaf, achieving $O(1)$ cost and maximizing cache locality. 
-Conversely, reversed inputs strictly insert at index 0, forcing an $O(d)$ \texttt{memmove} for every insertion, which critically degrades performance. 
-At $d=4$ with reversed inputs, the B*-tree suffers severe bottlenecks as continuous index-0 insertions trigger relentless redistributions under its strict 66\% fill-factor constraint.
+For B-tree and B$^+$-tree, \textbf{reversed input is consistently the fastest, while sorted is comparable to random and becomes the slowest at large $d$ ($d \ge 256$)}. Although sequential inputs (sorted/reversed) confine activity to a single root-to-leaf path, the asymmetry traces to our split implementation: split retains the left half in the original node and allocates a new \textit{right sibling}. Reversed input keeps the leftmost path active, reusing the same memory and benefiting from cache locality, whereas sorted input continually shifts work into freshly allocated right siblings. \textbf{For B*-tree the pattern reverses: sorted is fastest.} Under random input B*-tree frequently triggers cooperative redistribution at $\Theta(d)$ cost; under sequential input the active leaf has no sibling on the active side, so redistribution never fires and B*-tree falls back to a plain split.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{figure/integrity_combined.png}
+  \includegraphics[width=0.8\linewidth]{figure/integrity_combined.png}
   \caption{Fill factor and height difference}
   \label{fig:integrity}
 \end{figure}
 
-To deeply understand the B-tree variants' internal behavior, we extracted and analyzed the node fill factors and tree heights during the workloads.
-As illustrated in \cref{fig:integrity}, input sorting directly dictates spatial efficiency. 
-Reversed insertions cause pathological 33\% fill factors in B/B+-trees (one key per node), artificially inflating the tree height due to abandoned right-side nodes. 
-Interestingly, subsequent random deletions trigger internal \textsc{Merge} operations, successfully "healing" the sparse nodes and compressing the tree back to its optimal height. 
-The B*-tree, however, rigidly maintains its height and a superior $>80\%$ fill factor under random inputs, proving its structural efficiency.
+To deeply understand the variants' internal behavior, we extracted the average node fill factor and tree height across workloads (\Cref{fig:integrity}). Under random insertion, B-tree and B$^+$-tree converge to $\approx 0.70$, close to Yao's predicted $\ln 2 \approx 0.69$, while B*-tree reaches $\approx 0.85$, exceeding Knuth's $2/3$ target due to frequent redistributions. Under sequential input, fill drops to $\approx 0.50$ for B-tree/B$^+$-tree and $\approx 0.65$ for B*-tree --- consistent with the redistribution-bypass effect noted above: sequential growth always splits the active leaf exactly in half, producing the structural minimum. The lower occupancy inflates the height by one level (\Cref{fig:integrity}(b)). After 50\% random deletion, however, the underflow-driven merges consolidate the under-occupied leaves, healing the tree back to the same height as a randomly built one --- evidence that the sequential-input penalty is structural, not fundamental.
+
+\section{Conclusion}
+B*-tree's higher fill factor is a double-edged sword: it pays off only at very small $d$ where one less level of height accelerates lookups, but at every other order it makes B*-tree the slowest for both insertions and deletions due to denser intra-node memory shifts. The B$^+$-tree's leaf-list scan provides a constant-factor advantage on range queries that is insensitive to per-node density. Sequential bulk loads silently disable B*-tree's redistribution mechanism, so its occupancy advantage vanishes for bulk-built indexes. For our $100{,}000$-record dataset the practical sweet spot is $d \approx 64$--$128$, beyond which the $\Theta(d)$ intra-node cost dominates the logarithmic gain in tree height.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{reference}

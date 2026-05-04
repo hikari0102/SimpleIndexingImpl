@@ -3,15 +3,16 @@ Code and Data for CSE321 Assignment1 (2026 Spring)
 
 # Compile
 On linux,
-<pre>
-g++ -std=c++17 -fsanitize=address -O2 -Wall -Wextra test.cpp -o test
-</pre>
+```bash
+g++ -std=c++17 -O2 -Wall -Wextra test.cpp -o test
+```
+
 This command will generate the test binary.
 
 Then, run
-<pre>
+```bash
 ./run.sh
-</pre>
+```
 
 It will read the students.csv at the project top folder and writes the results into result folder.
 

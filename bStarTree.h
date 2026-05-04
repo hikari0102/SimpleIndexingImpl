@@ -14,12 +14,17 @@ class BStarTree : public BTree<Key, Value, Compare> {
     using Node = typename Base::Node;
     using Base::min_deg;
     using Base::split_in_two;
+    using Base::split_count_;
 
 public:
     using Up::Up;
 
+    std::size_t total_redistributes() const override { 
+        return redist_count_; 
+    }
 
 protected:
+    std::size_t redist_count_ = 0;
     void do_split(Node* parent, int i) override {
         const int n = (int)parent->keys.size();
         const int M = this->max_keys();
@@ -43,6 +48,7 @@ protected:
     }
 
     void redistribute_to_left(Node* parent, int i) {
+        redist_count_++;
         Node* L = parent->children[i - 1];
         Node* R = parent->children[i];
         const int total = (int)L->keys.size() + 1 + (int)R->keys.size();
@@ -84,6 +90,7 @@ protected:
         }
     }
     void redistribute_to_right(Node* parent, int i) {
+        redist_count_++;
         Node* L = parent->children[i];
         Node* R = parent->children[i + 1];
         const int total = (int)L->keys.size() + 1 + (int)R->keys.size();
@@ -127,6 +134,7 @@ protected:
     }
 
     void split_two_into_three(Node* parent, int i) {
+        split_count_++;
         Node* L = parent->children[i];
         Node* R = parent->children[i + 1];
 

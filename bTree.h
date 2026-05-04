@@ -129,6 +129,13 @@ public:
         return (double)total_keys / ((double)node_count * (double)max_keys());
     }
 
+    std::size_t total_splits() const override { 
+        return split_count_; 
+    }
+    std::size_t total_redistributes() const override { 
+        return 0; 
+    }
+
 
 protected:
     struct Node {
@@ -144,6 +151,7 @@ protected:
     Node* root = NULL;
     std::size_t size_ = 0;
     Compare cmp_;
+    std::size_t split_count_ = 0;
 
     virtual int max_keys() const { 
         return 2 * min_deg - 1; 
@@ -263,6 +271,7 @@ protected:
     virtual void do_fill(Node* parent, int i) = 0;
 
     void split_in_two(Node* parent, int i) {
+        split_count_++;
         Node* full_node = parent->children[i];
         Node* sibling = new Node(full_node->is_leaf);
         sibling->keys.assign(std::make_move_iterator(full_node->keys.begin() + min_deg), std::make_move_iterator(full_node->keys.end()));
