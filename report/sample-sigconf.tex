@@ -46,7 +46,7 @@
 \maketitle
 
 
-\section{INTRODUCTION}
+\section{Problem Statement}
 Tree-based indexes are fundamental to many database systems for accelerating point lookups, range queries, and updates. Among the many B-tree variants surveyed in the literature~\cite{comer1979}, three are particularly important: the original B-tree, the B$^+$-tree, which improves range scans by linking leaves, and the B*-tree, which trades insertion cost for higher node occupancy. In this report, we implement all three from scratch and compare their performance under a range of fan-out parameters across four operation classes (insert, point lookup, range query, and erase) together with structural integrity checks.
 
 Throughout this report we follow the CLRS\cite{Cormen_Leiserson_Rivest_Stein_2022} minimum-degree convention $t$, where a non-root node holds between $t - 1$ and $2t - 1$ keys. 
@@ -533,7 +533,7 @@ For integrity, we periodically invoked a structural check (every 5,000 deletions
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\linewidth]{figure/insertion_sorting_analysis.png}
+  \includegraphics[width=0.7\linewidth]{figure/insertion_sorting_analysis.png}
   \caption{Performance graph for various input order}
   \label{fig:perf_insert_sorting}
 \end{figure}
@@ -542,7 +542,7 @@ For B-tree and B$^+$-tree, \textbf{reversed input is consistently the fastest, w
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\linewidth]{figure/integrity_combined.png}
+  \includegraphics[width=0.65\linewidth]{figure/integrity_combined.png}
   \caption{Fill factor and height difference}
   \label{fig:integrity}
 \end{figure}
